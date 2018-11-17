@@ -1,8 +1,7 @@
-## Abdoulaye Samake
 ## SI 206 F18 - Project 2
 
 ## COMMENT HERE WITH:
-## Your name:
+## Your name: Abdoulaye Samake
 ## Anyone you worked with on this project and how you worked together
 ## You can not share code, but can share ideas
 ###########
@@ -20,16 +19,21 @@ import ssl
 ## Grab the headlines from the "Most Read" section
 ## and return them in a list
 def grab_headlines(soup):
-    
+
     # get the most read div
-    
+    mostRead = soup.find('div', class_='view-most-read')
+
     # get the ordered list from that div
+    orderedList = mostRead.select("ol > li > a")
     
     # get the links from the ordered list div
+    headlines = []
+    for item in orderedList:
+        headlines.append(item.string)
     
     # return the headlines
+    return headlines
 
-    pass
 
 
 ## PART 2 Complete a function called get_headline_dict. It will take a soup object and return a dictionary
@@ -97,18 +101,18 @@ def getSoupObjFromFile(fileName):
     return soup
 
 # testing on live urls - remove the string comments to run this 
-"""
+
 soup = getSoupObjFromURL("https://www.michigandaily.com/section/news")
 print(grab_headlines(soup))
-hDict = get_headline_dict(soup)
-print(hDict)
+# hDict = get_headline_dict(soup)
+# print(hDict)
 # get page info for each story in hDict
-for key, value in hDict.items():
-    tuple = getPageInfo(hDict, "http://www.michigandaily.com/")
-    print(tuple)
+# for key, value in hDict.items():
+#    tuple = getPageInfo(hDict, "http://www.michigandaily.com/")
+#    print(tuple)
 #nDict = find_mich_stuff(hDict) # for extra credit
 #print(nDict)
-"""
+
 
 # Test using unittests and saved pages
 class TestP2(unittest.TestCase):
