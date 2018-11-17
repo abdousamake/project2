@@ -32,9 +32,8 @@ def grab_headlines(soup):
         headlines.append(item.string)
     
     # return the headlines
-    return headlines
-
-
+    #return headlines
+    pass
 
 ## PART 2 Complete a function called get_headline_dict. It will take a soup object and return a dictionary
 ## with each story headline as a key and each story url as the value
@@ -43,9 +42,11 @@ def grab_headlines(soup):
 def get_headline_dict(soup):
     
     # create the empty dictionary
-    
+    storyDic = {}
+
     # get the story wrap divs
-    
+    storyWrap = soup.find_all('div', class_='storywrap')
+
     # get the short headline
     
     # find the link in headline div
@@ -102,8 +103,8 @@ def getSoupObjFromFile(fileName):
 
 # testing on live urls - remove the string comments to run this 
 
-soup = getSoupObjFromURL("https://www.michigandaily.com/section/news")
-print(grab_headlines(soup))
+#soup = getSoupObjFromURL("https://www.michigandaily.com/section/news")
+#print(grab_headlines(soup))
 # hDict = get_headline_dict(soup)
 # print(hDict)
 # get page info for each story in hDict
