@@ -32,8 +32,7 @@ def grab_headlines(soup):
         headlines.append(item.string)
     
     # return the headlines
-    #return headlines
-    pass
+    return headlines
 
 ## PART 2 Complete a function called get_headline_dict. It will take a soup object and return a dictionary
 ## with each story headline as a key and each story url as the value
@@ -53,7 +52,14 @@ def get_headline_dict(soup):
     
     # set the dictionary key to the headline and the url as the value
 
-    pass
+    for item in storyWrap:
+        headline = item.select('. view-field-field-short-headline')
+        result = headline[0].select('div > a')
+
+        for i in result:
+            storyDic[i.string] = i['href']
+
+    return storyDic 
 
 
 ## PART 3 Define a function called get_page_info. It will take a soup object for a story
