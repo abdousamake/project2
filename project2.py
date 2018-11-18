@@ -69,17 +69,27 @@ def get_headline_dict(soup):
 ## OUTPUT: Return - a tuple with the title, author, date, and number of paragraphs
 def get_page_info(soup):
     
-    # get the title
-    
+    # get the title 
+    title = soup.find('div', class_= 'main-container')
+    division1 = title.select('h2')[0]
+    storyTitle = division1.string
+
     # get the date
+    date = soup.find('div', class_= 'byline')
+    division2 = date.select('div')[0]
+    storyDate = division2.string
     
     # get the author
+    author = soup.find('div', class_= 'byline')
+    division3 = author.select('div > a')[0]
+    storyAuthor = division3.string
     
     # get the number of paragraphs
+    paragraphs = soup.find('div', class_= 'pane-node-body')
+    numberParagraphs = len(paragraphs.find_all('p'))
     
     # return the tuple
-
-    pass
+    return storyTitle, storyDate, storyAuthor, numberParagraphs
 
 ## Extra Credit
 ## INPUT: the dictionary that was returned from part 2
@@ -108,18 +118,18 @@ def getSoupObjFromFile(fileName):
     return soup
 
 # testing on live urls - remove the string comments to run this 
-
-#soup = getSoupObjFromURL("https://www.michigandaily.com/section/news")
-#print(grab_headlines(soup))
-# hDict = get_headline_dict(soup)
-# print(hDict)
+"""
+soup = getSoupObjFromURL("https://www.michigandaily.com/section/news")
+print(grab_headlines(soup))
+hDict = get_headline_dict(soup)
+print(hDict)
 # get page info for each story in hDict
-# for key, value in hDict.items():
-#    tuple = getPageInfo(hDict, "http://www.michigandaily.com/")
-#    print(tuple)
+for key, value in hDict.items():
+    tuple = getPageInfo(hDict, "http://www.michigandaily.com/")
+    print(tuple)
 #nDict = find_mich_stuff(hDict) # for extra credit
 #print(nDict)
-
+"""
 
 # Test using unittests and saved pages
 class TestP2(unittest.TestCase):
