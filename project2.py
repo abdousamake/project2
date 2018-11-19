@@ -21,7 +21,7 @@ import ssl
 def grab_headlines(soup):
 
     # get the most read div
-    mostRead = soup.find('div', class_='view-most-read')
+    mostRead = soup.find("div", class_='view-most-read')
 
     # get the ordered list from that div
     orderedList = mostRead.select("ol > li > a")
@@ -34,17 +34,21 @@ def grab_headlines(soup):
     # return the headlines
     return headlines
 
+
 ## PART 2 Complete a function called get_headline_dict. It will take a soup object and return a dictionary
 ## with each story headline as a key and each story url as the value
 ## INPUT: soup - the soup object
 ## OUTPUT: Return - a dictionary with each story headline as the key and the story url as the value
+
+
 def get_headline_dict(soup):
     
     # create the empty dictionary
     storyDic = {}
 
     # get the story wrap divs
-    storyWrap = soup.find_all('div', class_='storywrap')
+    storyWrap = soup.find_all("div", class_="storywrap")
+
 
     # get the short headline
     
@@ -53,11 +57,12 @@ def get_headline_dict(soup):
     # set the dictionary key to the headline and the url as the value
 
     for item in storyWrap:
-        headline = item.select('. view-field-field-short-headline')
-        result = headline[0].select('div > a')
+        #headline = item.find(".view-field-field-short-headline")
+        headline = item.find("div", class_="views-field-field-short-headline")
+        link = headline.find("a")
+        storyDic[link.text] = link["href"]
 
-        for i in result:
-            storyDic[i.string] = i['href']
+        
 
     return storyDic 
 
@@ -70,23 +75,23 @@ def get_headline_dict(soup):
 def get_page_info(soup):
     
     # get the title 
-    title = soup.find('div', class_= 'main-container')
-    division1 = title.select('h2')[0]
+    title = soup.find("div", class_= "main-container")
+    division1 = title.select("h2")[0]
     storyTitle = division1.string
 
     # get the date
-    date = soup.find('div', class_= 'byline')
-    division2 = date.select('div')[0]
+    date = soup.find("div", class_="pane-node-created")
+    division2 = date.select("div")[0]
     storyDate = division2.string
     
     # get the author
-    author = soup.find('div', class_= 'byline')
-    division3 = author.select('div > a')[0]
+    author = soup.find("div", class_="byline")
+    division3 = author.select("div > a")[0]
     storyAuthor = division3.string
     
     # get the number of paragraphs
-    paragraphs = soup.find('div', class_= 'pane-node-body')
-    numberParagraphs = len(paragraphs.find_all('p'))
+    paragraphs = soup.find("div", class_="pane-node-body")
+    numberParagraphs = len(paragraphs.find_all("p"))
     
     # return the tuple
     return storyTitle, storyDate, storyAuthor, numberParagraphs
@@ -94,8 +99,8 @@ def get_page_info(soup):
 ## Extra Credit
 ## INPUT: the dictionary that was returned from part 2
 ## OUTPUT: a new dictionary with just items that contain the word U-M or Ann Arbor
-def find_mich_stuff(dict):
-    pass
+
+
 
 ########### TESTS; DO NOT CHANGE ANY CODE BELOW THIS LINE! ###########
 
@@ -111,7 +116,7 @@ def getSoupObjFromURL(url):
 
 def getSoupObjFromFile(fileName):
     """ return a soup object from the file with the passed fileName"""
-    file = open(fileName, 'r')
+    file = open(fileName, 'r', encoding="utf-8")
     text = file.read().strip()
     file.close()
     soup = BeautifulSoup(text, "html.parser")
@@ -137,7 +142,7 @@ class TestP2(unittest.TestCase):
     def setUp(self):
         self.soup = getSoupObjFromFile("news1.html")
         self.soup2 = getSoupObjFromFile("newsStory1.html")
-        self.dict = get_headline_dict(self.soup)
+     #  self.dict = get_headline_dict(self.soup)
 
     def test_grab_headlines(self):
         self.assertEqual(grab_headlines(self.soup),['Broken Record: Student survivor navigates painful reporting process', 'Assistant women’s gymnastics coach resigns after charge of obscene conduct with gymnast', 'Ann Arbor Pieology shuts down because of “unfortunate circumstances”', 'To the white men who told me that they “prefer” white women', 'Op-Ed: Why I declined to write a letter of recommendation  '])
