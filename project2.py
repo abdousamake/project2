@@ -142,7 +142,7 @@ class TestP2(unittest.TestCase):
     def setUp(self):
         self.soup = getSoupObjFromFile("news1.html")
         self.soup2 = getSoupObjFromFile("newsStory1.html")
-     #  self.dict = get_headline_dict(self.soup)
+        self.dict = get_headline_dict(self.soup)
 
     def test_grab_headlines(self):
         self.assertEqual(grab_headlines(self.soup),['Broken Record: Student survivor navigates painful reporting process', 'Assistant women’s gymnastics coach resigns after charge of obscene conduct with gymnast', 'Ann Arbor Pieology shuts down because of “unfortunate circumstances”', 'To the white men who told me that they “prefer” white women', 'Op-Ed: Why I declined to write a letter of recommendation  '])
